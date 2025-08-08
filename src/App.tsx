@@ -58,31 +58,26 @@ const Window: FC<WindowProps> = ({
 
   return (
     <div
-      className="window"
+      className="bg-opacity-60 rounded-lg overflow-hidden transition-all duration-300 shadow-lg"
       style={{
-        backgroundColor: color,
-        top,
-        left,
-        width,
-        height,
-        position: "absolute",
-        borderRadius: "8px",
-        overflow: "hidden",
-        transition:
-          "top 0.25s ease, left 0.25s ease, width 0.25s ease, height 0.25s ease",
-        boxShadow: "0 4px 15px rgba(0,0,0,0.2)",
+      backgroundColor: color,
+      top,
+      left,
+      width,
+      height,
+      position: "absolute",
       }}
       onDragOver={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
+      e.preventDefault();
+      e.stopPropagation();
       }}
       onDrop={(e) => {
-        e.stopPropagation();
-        onDrop(e, id);
+      e.stopPropagation();
+      onDrop(e, id);
       }}
     >
       <div
-        className="title-bar"
+        className="bg-gray-800 p-2 cursor-grab text-white font-bold flex justify-between items-center"
         draggable
         onDragStart={(e) => {
           e.stopPropagation();
@@ -93,29 +88,11 @@ const Window: FC<WindowProps> = ({
           e.stopPropagation();
           onDrag(e, id);
         }}
-        style={{
-          background: "rgba(0,0,0,0.2)",
-          padding: "6px",
-          cursor: "grab",
-          color: "#fff",
-          fontWeight: "bold",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
       >
         <span>Window {id}</span>
         <button
           className="close-button"
           onClick={() => onClose(id)}
-          style={{
-            background: "rgba(255,255,255,0.3)",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-            padding: "2px 6px",
-            color: "#fff",
-          }}
         >
           ✕
         </button>
@@ -414,75 +391,41 @@ const App: FC = () => {
 
   return (
     <div
-      className="app"
-      style={{
-        position: "relative",
-        width: "100vw",
-        height: "100vh",
-        background: "#eee",
-      }}
+      className="app relative w-full h-full bg-gray-200"
       onDragOver={(e) => e.preventDefault()}
       onDrop={handleDrop}
     >
       {snapIndicator.show && (
-        <div
-          className="snap-indicator"
-          style={{
-            position: "absolute",
-            background: "rgba(0, 150, 255, 0.3)",
-            border: "2px dashed rgba(0, 150, 255, 0.7)",
-            borderRadius: "8px",
-            top: snapIndicator.top,
-            left: snapIndicator.left,
-            width: snapIndicator.width,
-            height: snapIndicator.height,
-            pointerEvents: "none",
-            transition: "all 0.2s ease",
-            transform: "scale(1)",
-            animation: "pulse 0.5s ease-out",
-          }}
-        />
+      <div
+        className="snap-indicator"
+        style={{
+        top: snapIndicator.top,
+        left: snapIndicator.left,
+        width: snapIndicator.width,
+        height: snapIndicator.height,
+        pointerEvents: "none",
+        transition: "all 0.2s ease",
+        transform: "scale(1)",
+        animation: "pulse 0.5s ease-out",
+        }}
+      />
       )}
       {windows.map((w) => (
-        <Window
-          key={w.id}
-          windowData={w}
-          onClose={closeWindow}
-          onDragStart={handleDragStart}
-          onDrag={handleDrag}
-          onDrop={handleDrop}
-        />
+      <Window
+        key={w.id}
+        windowData={w}
+        onClose={closeWindow}
+        onDragStart={handleDragStart}
+        onDrag={handleDrag}
+        onDrop={handleDrop}
+      />
       ))}
       <button
-        className="add-button"
-        onClick={createWindow}
-        style={{
-          position: "absolute",
-          bottom: "20px",
-          right: "20px",
-          width: "40px",
-          height: "40px",
-          borderRadius: "50%",
-          background: "#0096ff",
-          color: "#fff",
-          fontSize: "24px",
-          border: "none",
-          cursor: "pointer",
-          boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
-        }}
+      className="add-button text-center text-white text-2xl cursor-pointer "
+      onClick={createWindow}
       >
-        +
+      +
       </button>
-
-      <style>
-        {`
-          @keyframes pulse {
-            0% { transform: scale(0.95); opacity: 0.7; }
-            50% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(0.98); opacity: 0.85; }
-          }
-        `}
-      </style>
     </div>
   );
 };
